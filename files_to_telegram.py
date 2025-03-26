@@ -8,7 +8,7 @@ api_id = "22002174"
 api_hash = "114c42a93cf610b1e8e826b7d3ad6e65"
 
 # Чтение переменных окружения
-channel_id = os.getenv('CHAT_ID_IPA', '5419377045')  # Заменить на свой channel_id
+channel_id = int(os.getenv('CHAT_ID_IPA', '5419377045'))  # Преобразуем строку в целое число
 bot_token = os.getenv('BOT_TOKEN', '5541471253:AAFGq-cwlYERC9nSYc68_94bWOH0Fx1KkVU')  # Токен бота
 
 session_name = StringSession()
@@ -26,8 +26,19 @@ async def send_file_to_telegram():
     input_name = os.getenv('INPUT_BUILDNAME', '')
     print("Input name:", input_name)
 
+    if not input_name:
+        print("Error: Build name not provided.")
+        return
+
     # Путь к .zip файлу
     file_path_zip = os.path.join(os.getenv("GITHUB_WORKSPACE", default="."), "build", "iOS", f"{input_name}.zip")
+    
+    # Проверка, существует ли файл
+    if not os.path.exists(file_path_zip):
+        print(f"Error: File {file_path_zip} does not exist.")
+        return
+    
+    # Получаем сущность канала
     entity = await client.get_entity(channel_id)
 
     # Отправка файла .zip
