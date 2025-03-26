@@ -40,6 +40,11 @@ jobs:
           name: build-iOS
           path: build/iOS
           
+      - name: Install dependencies
+        run: |
+          pip install telethon
+          pip install tqdm
+          
       - name: send result to telegram
         run: |
           INPUT_BUILDNAME=${{ env.APP_NAME }} \
