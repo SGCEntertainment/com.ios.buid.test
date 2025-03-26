@@ -28,6 +28,12 @@ jobs:
         with:
           buildName: ${{ env.APP_NAME }}
           targetPlatform: iOS
+          
+      - name: Check IPA file
+        run: ls -la ${{ github.workspace }}/build/iOS/
+        
+      - name: Find IPA file
+        run: find ${{ github.workspace }} -name "*.ipa"
 
       - name: Send IPA to Telegram
         run: |
