@@ -32,6 +32,10 @@ jobs:
       - name: Check IPA file
         run: ls -la ${{ github.workspace }}/build/iOS/
         
+      - name: Check IPA inside folder
+        run: ls -la ${{ github.workspace }}/build/iOS/com.ios.buid.test-release
+
+        
       - name: Find IPA file
         run: find ${{ github.workspace }} -name "*.ipa"
 
