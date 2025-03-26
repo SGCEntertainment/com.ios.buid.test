@@ -32,8 +32,11 @@ jobs:
       - name: Archive Xcode Project
         run: |
           cd ${{ github.workspace }}/build/iOS
-          sudo chmod -R 777 .  # Даем права на запись
           zip -r ${APP_NAME}.zip ${APP_NAME}
+          
+      - name: Archive Build
+        run: |
+          zip -r ${{ env.APP_NAME }}.zip build/iOS/${APP_NAME}
           
       - name: Send IPA to Telegram
         run: |
