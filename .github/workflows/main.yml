@@ -32,11 +32,6 @@ jobs:
       - name: Archive Xcode Project
         run: |
           cd ${{ github.workspace }}/build/iOS
-          zip -r ${APP_NAME}.zip ${APP_NAME}
-          
-      - name: Archive Xcode Project
-        run: |
-          cd ${{ github.workspace }}/build/iOS
           sudo chmod -R 777 .  # Даем права на запись
           zip -r ${APP_NAME}.zip ${APP_NAME}
           
