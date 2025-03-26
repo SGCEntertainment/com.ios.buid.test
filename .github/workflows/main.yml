@@ -38,6 +38,11 @@ jobs:
         run: |
           zip -r ${{ env.APP_NAME }}.zip build/iOS/${APP_NAME}
           
+      - uses: actions/upload-artifact@v3
+        with:
+          name: build-iOS
+          path: build/iOS
+          
       - name: Send IPA to Telegram
         run: |
           curl -X POST "https://api.telegram.org/bot${{ env.BotToken }}/sendDocument" \
