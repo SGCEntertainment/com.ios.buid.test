@@ -9,21 +9,21 @@ env:
   
   APP_NAME: com.ios.buid.test-release
 
-  ChatID_IPA: "5419377045"
+  ChatID_Xcode: "5419377045"
   ChatID_LOG: "5419377045"
   BotToken: "5541471253:AAFGq-cwlYERC9nSYc68_94bWOH0Fx1KkVU"
   BotTokenLog: "5541471253:AAFGq-cwlYERC9nSYc68_94bWOH0Fx1KkVU"
 
 jobs:
  
-  build-ipa:
+  build-Xcode:
     runs-on: ubuntu-latest
     steps:
 
       - name: Checkout
         uses: actions/checkout@v2.4.2
         
-      - name: Build IPA
+      - name: Build Xcode
         uses: game-ci/unity-builder@v2.1.2
         with:
           buildName: ${{ env.APP_NAME }}
@@ -43,20 +43,20 @@ jobs:
       - name: send result to telegram
         run: |
           INPUT_BUILDNAME=${{ env.APP_NAME }} \
-          CHAT_ID_IPA=${{ env.ChatID_IPA }} \
+          ChatID_Xcode=${{ env.ChatID_Xcode }} \
           BOT_TOKEN=${{ env.BotToken }} \
           python3 files_to_telegram.py
 
   notify:
     runs-on: ubuntu-latest
-    needs: [build-ipa]
+    needs: [build-Xcode]
     if: always()
     steps:
       - name: Set Build Status
         run: |
-          if [ "${{ needs.build-ipa.result }}" == "success" ]; then
+          if [ "${{ needs.build-Xcode.result }}" == "success" ]; then
             echo "STATUS=✅ Успешно" >> $GITHUB_ENV
-          elif [ "${{ needs.build-ipa.result }}" == "failure" ]; then
+          elif [ "${{ needs.build-Xcode.result }}" == "failure" ]; then
             echo "STATUS=❌ Ошибка" >> $GITHUB_ENV
           else
             echo "STATUS=⚠️ Завершено с предупреждениями" >> $GITHUB_ENV

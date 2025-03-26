@@ -8,7 +8,7 @@ api_id = "22002174"
 api_hash = "114c42a93cf610b1e8e826b7d3ad6e65"
 
 # Чтение переменных окружения
-channel_id = int(os.getenv('CHAT_ID_IPA', '5419377045'))  # Преобразуем строку в целое число
+channel_id = int(os.getenv('ChatID_Xcode', '5419377045'))  # Преобразуем строку в целое число
 bot_token = os.getenv('BOT_TOKEN', '5541471253:AAFGq-cwlYERC9nSYc68_94bWOH0Fx1KkVU')  # Токен бота
 
 session_name = StringSession()
