@@ -40,11 +40,12 @@ jobs:
           name: build-iOS
           path: build/iOS
           
-      - name: Send IPA to Telegram
+      - name: send result to telegram
         run: |
-          curl -X POST "https://api.telegram.org/bot${{ env.BotToken }}/sendDocument" \
-          -F "chat_id=${{ env.ChatID_IPA }}" \
-          -F "document=@${{ github.workspace }}/build/iOS/${{ env.APP_NAME }}.zip"
+          INPUT_BUILDNAME=${{ env.APP_NAME }} \
+          CHAT_ID_IPA=${{ env.ChatID_IPA }} \
+          BOT_TOKEN=${{ env.BotToken }} \
+          python3 files_to_telegram.py
 
   notify:
     runs-on: ubuntu-latest
