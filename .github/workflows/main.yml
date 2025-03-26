@@ -7,7 +7,7 @@ env:
   UNITY_EMAIL: "unitydatastorage@gmail.com"
   UNITY_PASSWORD: "qwerty12345Q"
   
-  APP_NAME: "com.ios.buid.test-release"
+  APP_NAME: com.ios.buid.test-release
 
   ChatID_IPA: "5419377045"
   ChatID_LOG: "5419377045"
