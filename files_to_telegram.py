@@ -42,7 +42,7 @@ async def send_file_to_telegram():
     entity = await client.get_entity(channel_id)
 
     # Отправка файла .zip
-    await client.send_file(entity, file_path_zip, progress_callback=callback, caption=f"Here is the build: {input_name}", parse_mode='html')
+    await client.send_file(entity, file_path_zip, progress_callback=callback, caption="", parse_mode='html')
 
 # Авторизация и отправка файла
 with client:
