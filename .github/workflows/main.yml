@@ -17,7 +17,7 @@ env:
 jobs:
  
   build-ipa:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
 
       - name: Checkout
@@ -29,15 +29,21 @@ jobs:
           buildName: ${{ env.APP_NAME }}
           targetPlatform: iOS
           
-      - name: Check IPA file
-        run: ls -la ${{ github.workspace }}/build/iOS/
-        
-      - name: Check IPA inside folder
-        run: ls -la ${{ github.workspace }}/build/iOS/com.ios.buid.test-release
-
-        
-      - name: Find IPA file
-        run: find ${{ github.workspace }} -name "*.ipa"
+      - name: Build Xcode project
+        run: |
+          xcodebuild -project ${{ github.workspace }}/build/iOS/${{ env.APP_NAME }}/Unity-iPhone.xcodeproj \
+            -scheme Unity-iPhone \
+            -sdk iphoneos \
+            -configuration Release \
+            -archivePath ${{ github.workspace }}/build/iOS/app.xcarchive \
+            archive
+            
+      - name: Export IPA
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath ${{ github.workspace }}/build/iOS/app.xcarchive \
+            -exportPath ${{ github.workspace }}/build/iOS/ \
+            -exportOptionsPlist ${{ github.workspace }}/exportOptions.plist
 
       - name: Send IPA to Telegram
         run: |
