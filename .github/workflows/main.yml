@@ -17,7 +17,7 @@ env:
 jobs:
  
   build-ipa:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
 
       - name: Checkout
@@ -29,27 +29,16 @@ jobs:
           buildName: ${{ env.APP_NAME }}
           targetPlatform: iOS
           
-      - name: Build Xcode project
+      - name: Archive Xcode Project
         run: |
-          xcodebuild -project ${{ github.workspace }}/build/iOS/${{ env.APP_NAME }}/Unity-iPhone.xcodeproj \
-            -scheme Unity-iPhone \
-            -sdk iphoneos \
-            -configuration Release \
-            -archivePath ${{ github.workspace }}/build/iOS/app.xcarchive \
-            archive
-            
-      - name: Export IPA
-        run: |
-          xcodebuild -exportArchive \
-            -archivePath ${{ github.workspace }}/build/iOS/app.xcarchive \
-            -exportPath ${{ github.workspace }}/build/iOS/ \
-            -exportOptionsPlist ${{ github.workspace }}/exportOptions.plist
-
+          cd ${{ github.workspace }}/build/iOS
+          zip -r ${APP_NAME}.zip ${APP_NAME}
+          
       - name: Send IPA to Telegram
         run: |
           curl -X POST "https://api.telegram.org/bot${{ env.BotToken }}/sendDocument" \
           -F "chat_id=${{ env.ChatID_IPA }}" \
-          -F "document=@${{ github.workspace }}/build/iOS/${{ env.APP_NAME }}.ipa"
+          -F "document=@${{ github.workspace }}/build/iOS/${{ env.APP_NAME }}.zip"
 
   notify:
     runs-on: ubuntu-latest
